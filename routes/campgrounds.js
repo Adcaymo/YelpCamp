@@ -12,7 +12,8 @@ router.get("/", function(req, res) {
       res.render("campgrounds/index",
       {
         campgrounds: allCampgrounds,
-        currentUser: req.user
+        currentUser: req.user,
+        page: 'campgrounds'
       });
     }
   });
@@ -50,7 +51,7 @@ router.get("/:id", function(req, res) {
     if (err) {
       console.log(err);
     } else {
-      res.render("campgrounds/show", {campground:foundCampground});
+      res.render("campgrounds/show", {campground: foundCampground});
     }
   });
 });
