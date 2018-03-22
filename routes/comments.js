@@ -49,7 +49,7 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
 });
 
 //COMMENTS EDIT ROUTE
-router.get("/:comment_id/edit", middleware.checkCampgroundOwnership, middleware.checkCommentOwnership, function(req, res) {
+router.get("/:comment_id/edit", middleware.checkCommentOwnership, middleware.checkCampgroundOwnership, function(req, res) {
   Comment.findById(req.params.comment_id, function(err, foundComment) {
     if (err) {
       res.redirect("back");
