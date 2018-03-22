@@ -34,11 +34,11 @@ router.get("/login", function(req, res) {
 });
 
 //LOGIN LOGIC ROUTE - handle login logic
-router.post("/login", passport.authenticate("local", 
+router.post("/login", passport.authenticate("local",
   {
     successRedirect: "/campgrounds",
     failureRedirect: "/login"
-  }), function(req, res) {	
+  }), function(req, res) {
 });
 
 //LOGOUT ROUTE - logout user
