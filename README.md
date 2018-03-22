@@ -1,4 +1,4 @@
-# YelpCamp
+# YelpCamp (WIP)
 
 A Yelp-like web app built through an instructor-driven course on Udemy ([The Web Developer Course](https://www.udemy.com/the-web-developer-bootcamp/)).
 
