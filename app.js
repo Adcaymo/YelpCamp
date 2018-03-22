@@ -1,4 +1,4 @@
-var express	       = require('express'),
+var express        = require('express'),
     app            = express(),
     bodyParser     = require('body-parser'),
     mongoose       = require('mongoose'),
@@ -7,7 +7,7 @@ var express	       = require('express'),
     LocalStrategy  = require('passport-local'),
     methodOverride = require('method-override'),
     Campground     = require('./models/campground'),
-    Comment	       = require('./models/comment'),
+    Comment        = require('./models/comment'),
     User           = require('./models/user');
 
 //requiring routes
