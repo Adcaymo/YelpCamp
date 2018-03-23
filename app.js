@@ -26,6 +26,8 @@ app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
 
+app.locals.moment = require('moment');
+
 //PASSPORT CONFIG
 app.use(require("express-session") ({
   secret: "No man is an island entire of itself",
