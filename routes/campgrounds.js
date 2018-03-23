@@ -3,23 +3,39 @@ var express    = require('express'),
     Campground = require('../models/campground'),
     middleware = require('../middleware');
 
-//CAMPGROUND INDEX ROUTE - show all campgrounds
+// CAMPGROUND INDEX ROUTE - show all campgrounds
 router.get("/", function(req, res) {
-  Campground.find({}, function(err, allCampgrounds) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.render("campgrounds/index",
-      {
-        campgrounds: allCampgrounds,
-        currentUser: req.user,
-        page: 'campgrounds'
-      });
-    }
-  });
+  if (req.query.search) {
+    const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+    Campground.find({name: regex}, function(err, allCampgrounds) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.render("campgrounds/index",
+        {
+          campgrounds: allCampgrounds,
+          currentUser: req.user,
+          page: 'campgrounds'
+        });
+      }
+    });
+  } else {
+    Campground.find({}, function(err, allCampgrounds) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.render("campgrounds/index",
+        {
+          campgrounds: allCampgrounds,
+          currentUser: req.user,
+          page: 'campgrounds'
+        });
+      }
+    });
+  }
 });
 
-//CAMPGROUND CREATE ROUTE - add new campground to db
+// CAMPGROUND CREATE ROUTE - add new campground to db
 router.post("/", middleware.isLoggedIn, function(req, res) {
   var name = req.body.name;
   var price = req.body.price;
@@ -40,12 +56,12 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
   });
 });
 
-//CAMPGROUND NEW ROUTE - show form to create new campground
+// CAMPGROUND NEW ROUTE - show form to create new campground
 router.get("/new", middleware.isLoggedIn, function(req, res) {
   res.render("campgrounds/new");
 });
 
-//CAMPGROUND SHOW ROUTE - show more info about specific campground
+// CAMPGROUND SHOW ROUTE - show more info about specific campground
 router.get("/:id", function(req, res) {
   Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground) {
     if (err) {
@@ -56,7 +72,7 @@ router.get("/:id", function(req, res) {
   });
 });
 
-//CAMPGROUND EDIT ROUTE
+// CAMPGROUND EDIT ROUTE
 router.get("/:id/edit", middleware.checkCampgroundOwnership, function(req, res) {
   Campground.findById(req.params.id, function(err, foundCampground) {
     if (err) {
@@ -67,7 +83,7 @@ router.get("/:id/edit", middleware.checkCampgroundOwnership, function(req, res) 
   });
 });
 
-//CAMPGROUND UPDATE ROUTE
+// CAMPGROUND UPDATE ROUTE
 router.put("/:id", middleware.checkCampgroundOwnership, function(req, res) {
   Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err, updatedCampground) {
     if (err) {
@@ -79,7 +95,7 @@ router.put("/:id", middleware.checkCampgroundOwnership, function(req, res) {
   });
 });
 
-//CAMPGROUND DESTROY ROUTE
+// CAMPGROUND DESTROY ROUTE
 router.delete("/:id", middleware.checkCampgroundOwnership, function(req, res) {
   Campground.findByIdAndRemove(req.params.id, function(err) {
     if (err) {
@@ -90,5 +106,10 @@ router.delete("/:id", middleware.checkCampgroundOwnership, function(req, res) {
     }
   });
 });
+
+// HELPER FUNCTION
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 module.exports = router;

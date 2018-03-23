@@ -7,6 +7,14 @@
     <p>
       <a class="btn btn-primary btn-lg" href="/campgrounds/new">Add New Campground</a>
     </p>
+    <p>
+      <form class="form-inline" action="/campgrounds" method="GET">
+        <div class="form-group">
+          <input class="form-control" type="text" name="search" placeholder="Campground search...">
+          <input class="btn btn-default" type="submit" value="Search">
+        </div>
+      </form>
+    </p>
   </div>
 </header>
 
@@ -19,7 +27,9 @@
           <h4><%= campground.name %></h4>
         </div>
         <p>
-          <a class="btn btn-primary" href="/campgrounds/<%= campground._id %>">More Info</a>
+          <a class="btn btn-primary" href="/campgrounds/<%= campground._id %>">
+            More Info
+          </a>
         </p>
       </div> <!-- thumbnail -->
     </div> <!-- col-md-3 col-sm-6 -->
